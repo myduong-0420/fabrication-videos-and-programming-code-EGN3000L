@@ -32,39 +32,6 @@ pinMode(en_right, OUTPUT);
 }
 
 
-void loop() {
-/* This is where the main code is put, so it runs over and over in the program. That is why it is called a loop.*/
-analogWrite(en_right, motorSpeed_right); // set up the speed for the right motor
-analogWrite(en_left, motorSpeed_left); // set up the speed for the left motor
-int right_sensor = digitalRead(right_irsensor);/*declaring the variable called right_sensor to take the reading from the right IR sensor. We are using digitalRead() since it is only a white and black surface. It will read LOW for black and HIGH for white.*/
-int left_sensor = digitalRead(left_irsensor);
-int reading = ultrasonic.read();/*Declaring a variable for the Ultrasonic sensor to read. Here, the name given to the sensor at the beginning has to be used for the command, hence, ultrasonic.read()*/
-/* Here, we need the conditional statements to instruct the robot on when to perform which movements. */
-if(reading>29){ /*If the reading is more than 29 cm, meaning an obstacle is more than 29 cm away from the sensor, then the robot can run.*/
-if(right_sensor == HIGH && left_sensor == LOW){  /*The right sensor detects white and the left sensor detects black.*/
-left();  /*If this condition is met, the robot turns left.*/
-}
-
-/* the 3 following if statements are similar in performing their corresponding movements */
-if(right_sensor == LOW && left_sensor == HIGH){
-right();
-}
-
-if(right_sensor == LOW && left_sensor == LOW){
-yay(); /*if it is not more than 29 cm, then the robot will stop. yay() is defined as a function for the robot to stop as below. */
-}
-
-if(right_sensor == HIGH && left_sensor == HIGH){
-forward();
-}
-}
-
-else{  /* This else statement corresponds with the if(reading>29), meaning that if reading<29, the robot will also stop.*/
-yay();
-}
-}
-
-
 void right(){  //void is used to define functions. This function will make the robot turn right.
 /*digitalWrite() is used to make things work or stop based on digital signals given to it in the form of HIGH and LOW.HIGH is to make something work while LOW is to stop it.*/
 digitalWrite(motor_rightFront,LOW); //make the right motor stop moving forward
@@ -104,3 +71,36 @@ digitalWrite(motor_rightBack, LOW);
 digitalWrite(motor_leftFront, LOW);
 digitalWrite(motor_leftBack, LOW);
 }
+
+void loop() {
+/* This is where the main code is put, so it runs over and over in the program. That is why it is called a loop.*/
+analogWrite(en_right, motorSpeed_right); // set up the speed for the right motor
+analogWrite(en_left, motorSpeed_left); // set up the speed for the left motor
+int right_sensor = digitalRead(right_irsensor);/*declaring the variable called right_sensor to take the reading from the right IR sensor. We are using digitalRead() since it is only a white and black surface. It will read LOW for black and HIGH for white.*/
+int left_sensor = digitalRead(left_irsensor);
+int reading = ultrasonic.read();/*Declaring a variable for the Ultrasonic sensor to read. Here, the name given to the sensor at the beginning has to be used for the command, hence, ultrasonic.read()*/
+/* Here, we need the conditional statements to instruct the robot on when to perform which movements. */
+if(reading>29){ /*If the reading is more than 29 cm, meaning an obstacle is more than 29 cm away from the sensor, then the robot can run.*/
+if(right_sensor == HIGH && left_sensor == LOW){  /*The right sensor detects white and the left sensor detects black.*/
+left();  /*If this condition is met, the robot turns left.*/
+}
+
+/* the 3 following if statements are similar in performing their corresponding movements */
+if(right_sensor == LOW && left_sensor == HIGH){
+right();
+}
+
+if(right_sensor == LOW && left_sensor == LOW){
+yay(); /*if it is not more than 29 cm, then the robot will stop. yay() is defined as a function for the robot to stop as below. */
+}
+
+if(right_sensor == HIGH && left_sensor == HIGH){
+forward();
+}
+}
+
+else{  /* This else statement corresponds with the if(reading>29), meaning that if reading<29, the robot will also stop.*/
+yay();
+}
+}
+
